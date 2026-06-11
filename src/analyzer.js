@@ -48,7 +48,8 @@ function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
 
   let attempsTimestamps = [];
   let currentWindow = null;
-  const sortedLogs = logs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  filteredLogs = logs.filter(log => log.timestamp != 'not-a-date');
+  const sortedLogs = filteredLogs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
   for (let i = 0; i < sortedLogs.length; i++) {
     const log = sortedLogs[i];
