@@ -30,7 +30,7 @@ function getHourlyBreakdown(logs) {
 
   const accessByHour = logs.reduce((acc, log) => {
     if(log.timestamp != 'not-a-date') {
-      const hour = log.timestamp == 'not-a-date' ? 'hora invalida' : new Date(log.timestamp).getUTCHours();
+      const hour = new Date(log.timestamp).getUTCHours();
       if (!acc[hour]) {
         acc[hour] = 0;
       }
@@ -41,9 +41,7 @@ function getHourlyBreakdown(logs) {
   }, {});
 
 
-  return {
-    hours: accessByHour
-  };
+  return accessByHour;
 }
 
 function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
@@ -85,9 +83,7 @@ function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
   }
 
 
-  return {
-    attempts: attempsTimestamps
-  };
+  return attempsTimestamps;
 }
 
 function detectRapidDenials(logs, threshold, windowMinutes) {

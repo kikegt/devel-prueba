@@ -55,6 +55,23 @@ app.get('/api/rapid-denials', (req, res) => {
   }
 });
 
+app.get('/api/stats', (req, res) => {
+  try {
+    const membersWithMostDenials = getMembersWithMostDenials(logs);
+    const hourlyBreakdown = getHourlyBreakdown(logs);
+    const suspiciousActivity = getSuspiciousActivity(logs);
+
+    result = {
+      membersWithMostDenials,
+      hourlyBreakdown,
+      suspiciousActivity
+    };
+    res.json({ ok: true, data: result });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
