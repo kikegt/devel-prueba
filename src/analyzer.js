@@ -45,47 +45,30 @@ function getHourlyBreakdown(logs) {
 
 function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
 
-  let attempsTimestamps = logs.reduce((acc, log) => {
-    if (!acc[log.member]) {
-      acc[log.member] = [];
-    }
-    acc[log.member].push(log.timestamp);
-    return acc;
-  }, {});
-
-  for (const member in attempsTimestamps) {
-    const timestamps = attempsTimestamps[member];
-    let rangesByMember = [];
-    timestamps.map((timestamp) => {
-      if (rangesByMember.length === 0) {
-        rangesByMember.push({
-          start: timestamp,
-          end: timestamp,
-          attempts: 1
-        });
+  let attempsTimestamps = [];
+  let currentWindow = null;
+  for (const log of logs) {
+    if(currentWindow){
+      const diffMinutes = (new Date(log.timestamp) - new Date(currentWindow.end)) / (1000 * 60);
+      if(currentWindow.member === log.member && diffMinutes <= windowMinutes) {
+        currentWindow.attempts += 1;
       } else {
-        const lastRange = rangesByMember[rangesByMember.length - 1];
-        const timeDiff = (new Date(timestamp) - new Date(lastRange.start)) / 60000;
-        if (Math.abs(timeDiff) <= windowMinutes) {
-          lastRange.end = timestamp;
-          lastRange.attempts += 1;
-        } else {
-          rangesByMember.push({
-            start: timestamp,
-            end: timestamp,
-            attempts: 1
-          });
+        if(currentWindow.attempts >= maxAttempts) {
+          attempsTimestamps.push(currentWindow);
         }
+        currentWindow = null;
       }
-    });
-    rangesByMember = rangesByMember.filter(range => range.attempts >= maxAttempts);
-    if (rangesByMember.length > 0) {
-      attempsTimestamps[member] = rangesByMember;
-    } else {
-      delete attempsTimestamps[member];
+    } 
+
+    if(!currentWindow) {
+      currentWindow = {
+        member: log.member,
+        start: log.timestamp,
+        end: log.timestamp,
+        attempts: 1
+      };
     }
   }
-
 
 
   return {
