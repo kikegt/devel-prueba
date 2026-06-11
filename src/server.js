@@ -7,7 +7,7 @@ const { sanitizeLogs } = require('./domain/entities/Logs');
 const logs = sanitizeLogs(loadJsonFile('logs.json'));
 
 function loadJsonFile(fileName) {
-  const filePath = path.join(__dirname, 'data', fileName);
+  const filePath = path.join(__dirname, '../', fileName);
   const rawContent = fs.readFileSync(filePath, 'utf8');
   return JSON.parse(rawContent);
 }
@@ -54,6 +54,9 @@ app.get('/api/rapid-denials', (req, res) => {
     res.status(500).json({ ok: false, message: error.message });
   }
 });
-    
 
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

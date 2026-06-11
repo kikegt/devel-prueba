@@ -2,11 +2,11 @@
   "name": "devel-project",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon main.js",
-    "start": "node main.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
