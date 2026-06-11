@@ -32,6 +32,16 @@ En Caza de bugs solo mencionaba que habian ciertos errores, mas no que causaban,
 ## Qué haría con más tiempo:
 La verdad si me gustaria implementar clean arquitecture para mayor escabilidad y legibilidad, tambien usar typescript para el tipado seguro y no tener que hacer tantas validaciones a mano, middlewares para la seguridad de los endpoints ya que en un caso real no deberia estar expuestos logs de usuarios, implementar una conexion a una db, y probar con datos reales y si se puede optimizar las consultas para que ya vengan filtradas de db y ya solo en el servicio hacer ciertos calculos
 
+# Prompt Clasificación:
+Tengo un modelo de datos con los siguientes atributos, id(obligatorio), member(opcional), action(obligatorio), result(obligatio), timestamp(opcional), tomando en cuenta que "result" puede venir en mayusculas o minusculas, normalizalo para que siempre sea minusculas, tomando en cuenta que timestamp puede no ser una fecha valida intenta que se convierta a fecha y si falla ponle el valor por defecto "not-a-date", necesito que clasifiques una lista tomando en cuenta las validaciones anteriores donde los datos pueden o no venir, has una clasificacion por usuarios que tengan "result":"denied" y un conteo de cuantas veces se repite, te adjunto un ejemplo de como se veria un objeto ideal de la lista de datos
+{
+  "id": "123",
+  "member": "Juan Pérez",
+  "action": "check-in",
+  "result": "granted",
+  "timestamp": "2026-06-01T08:05:00Z"
+}
+
 
 [1]: https://nodejs.org/es/download
 
