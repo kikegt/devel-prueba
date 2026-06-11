@@ -32,3 +32,12 @@ Elimino app.js y main.js y los unifico en server.js para el inicio del app
 scripts iniciales de package.json
 - Por qué: para mantener la funcionalidad de npm run dev y npm run start con el nuevo entry para el inicio del servicio
 
+## prompt 4
+-Que pedí: I need a function for invalid routes to send a message error
+- Qué me devolvió:
+Me genero un app.all('*')
+- Qué cambie:
+Cambie a app.use((req, res)) y la respuesta
+- Por qué: me daba error y estuve investigando que desde express 5 ya no se usa esa funcion sino que era de express 4
+
+

@@ -72,6 +72,10 @@ app.get('/api/stats', (req, res) => {
   }
 });
 
+app.use((req, res) => {
+  res.status(404).json({ ok: false, message: 'Endpoint not found', statusCode: 404 });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
