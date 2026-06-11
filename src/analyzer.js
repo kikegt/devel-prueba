@@ -51,13 +51,23 @@ function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
   let attempsTimestamps = [];
   let currentWindow = null;
   const sortedLogs = logs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-  for (const log of sortedLogs) {
+
+  for (let i = 0; i < sortedLogs.length; i++) {
+    const log = sortedLogs[i];
     if(currentWindow){
       const diffMinutes = (new Date(log.timestamp) - new Date(currentWindow.end)) / (1000 * 60);
-      if(currentWindow.member === log.member && diffMinutes <= windowMinutes) {
+      isLastLog = i === sortedLogs.length - 1;
+      if(currentWindow.member === log.member && diffMinutes <= windowMinutes && !isLastLog) {
         currentWindow.attempts += 1;
+        currentWindow.end = log.timestamp;
       } else {
-        if(currentWindow.attempts >= maxAttempts) {
+
+        if(isLastLog) {
+          currentWindow.end = log.timestamp;
+          currentWindow.attempts += 1;
+        }
+
+        if(currentWindow.attempts >= maxAttempts ) {
           attempsTimestamps.push(currentWindow);
         }
         currentWindow = null;
