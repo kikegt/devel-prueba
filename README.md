@@ -28,6 +28,9 @@ Utilice la IA mas que todo para la base principal del proyecto, para tener una e
 3. Ambiguedades:
 En Caza de bugs solo mencionaba que habian ciertos errores, mas no que causaban, ni como se reflejaba, por lo que empece a ejecutar la funcion y a revisar el codigo comparando con mi codigo de getSuspiciousActivity que es similar, y me di cuenta de el error de los tiempos logueando las diferencias y viendo que eran demasiado altas, ya que un error similar me paso cuando estaba desarrollando mi funcion y me di cuenta del error de multiplicación y di con el error de tiempo, y con el error de diseño ejecute la funcion y me devolvia varios usuarios lo que no me parecia logico ya que acorde los logs solo pocos usuarios tuvieron alta concurrencia por lo que fui revisando como logueaba y vi que nomas hacia push en base a la diferencia y no al miembro 
 
+4. Inconvenientes
+Debido a que mayormente he trabajado con bases de datos no relacionales como mongodb solo pude hacer la primera sección de SQL ya que no tenia conocimiento suficiente para la siguiente y el bonus
+
 
 ## Qué haría con más tiempo:
 La verdad si me gustaria implementar clean arquitecture para mayor escabilidad y legibilidad, tambien usar typescript para el tipado seguro y no tener que hacer tantas validaciones a mano, middlewares para la seguridad de los endpoints ya que en un caso real no deberia estar expuestos logs de usuarios, implementar una conexion a una db, y probar con datos reales y si se puede optimizar las consultas para que ya vengan filtradas de db y ya solo en el servicio hacer ciertos calculos
