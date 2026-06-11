@@ -27,13 +27,16 @@ function getMembersWithMostDenials(logs, topN = 3) {
 
 function getHourlyBreakdown(logs) {
 
-  const accessByHour = logs.reduce((acc, log) => {
 
-    const hour = log.timestamp == 'not-a-date' ? 'not-a-date' : new Date(log.timestamp).getHours();
-    if (!acc[hour]) {
-      acc[hour] = 0;
+  const accessByHour = logs.reduce((acc, log) => {
+    if(log.timestamp != 'not-a-date') {
+      const hour = log.timestamp == 'not-a-date' ? 'hora invalida' : new Date(log.timestamp).getUTCHours();
+      if (!acc[hour]) {
+        acc[hour] = 0;
+      }
+      acc[hour] += 1;
     }
-    acc[hour] += 1;
+
     return acc;
   }, {});
 
@@ -47,7 +50,8 @@ function getSuspiciousActivity(logs, maxAttempts = 3, windowMinutes = 5) {
 
   let attempsTimestamps = [];
   let currentWindow = null;
-  for (const log of logs) {
+  const sortedLogs = logs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  for (const log of sortedLogs) {
     if(currentWindow){
       const diffMinutes = (new Date(log.timestamp) - new Date(currentWindow.end)) / (1000 * 60);
       if(currentWindow.member === log.member && diffMinutes <= windowMinutes) {

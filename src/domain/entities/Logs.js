@@ -25,7 +25,6 @@ function sanitizeLog(rawLog = {}) {
 function sanitizeLogs(rawLogs = []) {
   if (Array.isArray(rawLogs)) {
     const sanitized = rawLogs.map((entry) => sanitizeLog(entry));
-    sanitized.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     return sanitized;
   }
 
