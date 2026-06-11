@@ -1,5 +1,13 @@
-function fallback(value, replacement) {
+function fallback(value, replacement, type = 'string') {
+  if(type === 'date') {
+    try {
+      return new Date(value);
+    } catch (error) {
+      return replacement;
+    }
+  }
   return value === null || value === undefined || value === '' ? replacement : value;
+
 }
 
 function sanitizeLog(rawLog = {}) {

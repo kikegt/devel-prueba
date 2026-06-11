@@ -61,7 +61,38 @@ function getSuspiciousActivity(maxAttempts = 3, windowMinutes = 5) {
     return acc;
 }, {});
 
-
+  for(const member in attempsTimestamps) {
+    const timestamps = attempsTimestamps[member];
+    let rangesByMember = [];
+    timestamps.map((timestamp) => {
+      if(rangesByMember.length === 0) {
+        rangesByMember.push({
+          start: timestamp,
+          end: timestamp,
+          attempts: 1
+        });
+      } else {
+        const lastRange = rangesByMember[rangesByMember.length - 1];
+        const timeDiff = (new Date(timestamp) - new Date(lastRange.start)) / 60000;
+        if(Math.abs(timeDiff) <= windowMinutes) {
+          lastRange.end = timestamp;
+          lastRange.attempts += 1;
+        } else {
+          rangesByMember.push({
+            start: timestamp,
+            end: timestamp,
+            attempts: 1
+          });
+        }
+      }
+    });
+    rangesByMember = rangesByMember.filter(range => range.attempts >= maxAttempts);
+    if(rangesByMember.length > 0) {
+      attempsTimestamps[member] = rangesByMember;
+    } else {
+      delete attempsTimestamps[member];
+    }
+  }
   
 
 
@@ -73,5 +104,6 @@ function getSuspiciousActivity(maxAttempts = 3, windowMinutes = 5) {
 module.exports = {
   loadJsonFile,
   getMembersWithMostDenials,
-  getHourlyBreakdown
+  getHourlyBreakdown,
+  getSuspiciousActivity
 };
